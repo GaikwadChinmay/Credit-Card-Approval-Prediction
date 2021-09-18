@@ -4,6 +4,7 @@ Commercial banks receive a lot of applications for credit cards. Many of them ge
 
 # Data Set: 
   The Credit Card Approval dataset from the UCI Machine Learning Repository
+  -> https://bit.ly/39gmhUa
 
 # Data Processing Workflow:
 - Data Inspection
