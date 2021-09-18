@@ -92,17 +92,17 @@ def _max_width_(prcnt_width:int = 75):
     
 def user_input_features():
     Gender = st.sidebar.selectbox('Gender',('Male', 'Female'))
-    Age = st.sidebar.slider('Age', 10, 80, 1)
-    Income = st.sidebar.slider('Income', 0,10, 1)
-    Debt = st.sidebar.slider('Debt', 0,30, 1)
-    YearsEmployed = st.sidebar.slider('YearsEmployed', 1,30, 1)
-    CreditScore = st.sidebar.slider('CreditScore', 0,20, 1)
+    Age = st.sidebar.slider('Age (In Years)', 10, 80, 1)
+    Income = st.sidebar.slider('Income (In Million)', 0,10, 1)
+    Debt = st.sidebar.slider('Debt (In Million)', 0,30, 1)
+    YearsEmployed = st.sidebar.slider('Years Employed (In Years)', 1,30, 1)
+    CreditScore = st.sidebar.slider('Credit Score', 0,20, 1)
     MaritalStatus = st.sidebar.selectbox('Marital Status',('Married', 'Bachelore','Divorced'))
     BankCustomer = st.sidebar.selectbox('Bank Customer',('Yes', 'No'))
     Education = st.sidebar.selectbox('Education',('Graduate', 'PostGraduate','HighSchool','Primary','PGDiploma','Diploma','PhD','Secondary'))
     Ethinicity = st.sidebar.selectbox('Ethinicity',('Asian', 'African','EastAsian','SouthAmerican','LatinAmerican','European','Oceania','MiddleEast','Latin'))
     PriorDefault = st.sidebar.selectbox('Prior Default',('Yes', 'No'))
-    DriversLicense = st.sidebar.selectbox('DriversLicense',('Yes', 'No'))
+    DriversLicense = st.sidebar.selectbox('Drivers License',('Yes', 'No'))
     Citizen = st.sidebar.selectbox('Citizen',('Yes', 'No','Refugee'))
     Employed = st.sidebar.selectbox('Employed',('Yes', 'No'))
     data = {'Gender': Gender,
