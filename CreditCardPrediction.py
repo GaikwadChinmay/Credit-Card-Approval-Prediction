@@ -10,6 +10,7 @@ import pandas as pd
 #from sklearn import datasets
 #from sklearn.ensemble import RandomForestClassifier
 import numpy as np
+import matplotlib.pyplot as plt
 
 #Model
 # Loading dataset
@@ -22,12 +23,12 @@ cc_apps_labelled['Married'] = cc_apps_labelled['Married'].map({'u':'N','y':'Y','
 cc_apps_labelled['BankCustomer'] = cc_apps_labelled['BankCustomer'].map({'g':'Y','p':'N','gg':'N'})
 cc_apps_labelled['EducationLevel'] = cc_apps_labelled['EducationLevel'].map({'c':'Graduate','q':'PostGraduate','w':'PGDiploma','i':'Diploma','aa':'Graduate','ff':'HighSchool','k':'PhD','cc':'Secondary','m':'Primary','x':'Primary','d':'Secondary','e':'HighSchool','j':'Graduate','r':'Secondary'})
 cc_apps_labelled['Ethnicity'] = cc_apps_labelled['Ethnicity'].map({'v':'Asian','h':'African','bb':'LatinAmerican','ff':'European','j':'Oceania','z':'MiddleEast','dd':'Latin','n':'EastAsian','o':'SouthAmerican'})
-cc_apps_labelled['PriorDefault'] = cc_apps_labelled['PriorDefault'].map({'f':'Y','t':'N'})
-cc_apps_labelled['Employed'] = cc_apps_labelled['Employed'].map({'f':'Y','t':'N'})
+cc_apps_labelled['PriorDefault'] = cc_apps_labelled['PriorDefault'].map({'f':'N','t':'Y'})
+cc_apps_labelled['Employed'] = cc_apps_labelled['Employed'].map({'f':'N','t':'Y'})
 cc_apps_labelled['Age'] = cc_apps_labelled['Age'].astype(float)
 cc_apps_labelled['Citizen'] = cc_apps_labelled['Citizen'].map({'g':'Y','s':'N','p':'Refugee'})
 cc_apps_labelled['ApprovalStatus'] = cc_apps_labelled['ApprovalStatus'].map({'+':'Y','-':'N'})
-cc_apps_labelled['DriversLicense'] = cc_apps_labelled['DriversLicense'].map({'f':'Y','t':'N'})
+cc_apps_labelled['DriversLicense'] = cc_apps_labelled['DriversLicense'].map({'f':'N','t':'Y'})
 # Imputing the missing values with mean imputation
 cc_apps_labelled.select_dtypes(['int','float']).fillna(cc_apps_labelled.mean(), inplace=True)
 # Iterating over each column of cc_apps
@@ -73,12 +74,22 @@ final_logreg.fit(rescaledX_train,y_train)
 
 # Streamlit
 st.write("""
-# Simple Credit Card Prediction App
-This web app predicts the **Credit Card approval rate**
+# Credit Card Approval Prediction
+This web app predicts the **Credit Card Approval rate**
 """)
 
 st.sidebar.header('User Input Parameters')
 
+def _max_width_(prcnt_width:int = 75):
+    max_width_str = f"max-width: {prcnt_width}%;"
+    st.markdown(f""" 
+                <style> 
+                .reportview-container .main .block-container{{{max_width_str}}}
+                </style>    
+                """, 
+                unsafe_allow_html=True,
+    )
+    
 def user_input_features():
     Gender = st.sidebar.selectbox('Gender',('Male', 'Female'))
     Age = st.sidebar.slider('Age', 10, 80, 1)
@@ -138,6 +149,22 @@ st.subheader('Prediction Probability')
 output_proba = pd.DataFrame(np.array(prob), columns=['Not Approved','Approved'])
 st.write(output_proba)
 #st.write(prediction_proba)
+
+# Pie chart, where the slices will be ordered and plotted counter-clockwise:
+#st.subheader('Prediction Probability')
+labels = target_names
+sizes = (prob[0][1],prob[0][0])
+colors = ['mediumseagreen', 'tab:red']
+explode = (0.1, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
+fig1, ax1 = plt.subplots(constrained_layout=True,figsize=(6 ,2))
+
+
+ax1.pie(sizes, explode=explode, labels=labels,colors=colors, autopct='%1.1f%%',
+        shadow=True, startangle=90,textprops={'fontsize': 9},pctdistance=0.45,labeldistance=1.2)
+ax1.legend(('Approved','Not Apporved'), loc='upper right', shadow=True,prop={'size':5.5})
+ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+st.pyplot(fig1)
 
 output = pd.DataFrame(data = {'Not Approved':1-prediction,'Approved':prediction},index=[0])
 st.subheader('Prediction')
