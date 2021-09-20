@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 #Model
 # Loading dataset
 url = "https://github.com/GaikwadChinmay/Classification-CreditCardApproval/blob/main/cc_approvals.data"
-cc_apps = pd.read_csv(url,header=None)
+cc_apps = pd.read_csv(url)
 cc_apps_labelled = cc_apps.rename(columns={0:'Gender', 1:'Age', 2:'Debt', 3:'Married', 4:'BankCustomer', 5:'EducationLevel', 6:'Ethnicity', 7:'YearsEmployed', 8:'PriorDefault', 9:'Employed', 10:'CreditScore', 11:'DriversLicense', 12:'Citizen', 13:'ZipCode', 14:'Income',15:'ApprovalStatus'})
 # Inspecting data
 cc_apps_labelled = cc_apps_labelled.replace('?',np.NaN)
